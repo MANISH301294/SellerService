@@ -13,7 +13,7 @@ public class Upsert {
 
     static String applicationId = "42142dd0-1c33-4e82-9e48-985760cafd2e";
     static String jwtToken;
-    static String clientId = "7c1f5df8b07e62deb315f410d8788d56a";
+  //  static String clientId = "7c1f5df8b07e62deb315f410d8788d56a";
   static   Random random = new Random();
     static   StringBuilder stringBuilder = new StringBuilder("002");
     static  String resourceId = "236749df-3120-4a18-8b7a-2378ec4e4fcf";
@@ -48,9 +48,10 @@ public class Upsert {
 
         for(int i=0;i<resourceType.length;i++)
         {
-            if(resourceType[i].equalsIgnoreCase("CAMPAIGN_DAILY"));
+            if(resourceType[i].equalsIgnoreCase("COUPON"));
             {
                  resourcetype = resourceType[i];
+                 break;
             }
         }
 
@@ -60,40 +61,37 @@ public class Upsert {
         RestAssured.baseURI = "http://seller-service.zeptonow.dev/";
 
         String req_body = String.format("{\n" +
-                "  \"requestId\": \"550e8400-e29b-41d4-a716-44666644%s\",\n" +
-                "  \"operationType\": \"CREATE\",\n" +
-                "  \"resourceType\": \"%s\",\n" +
-                "  \"resourceId\": \"%s\",\n" +
-                "  \"resourceSegments\": {\n" +
-                "    \"storeSegmentId\": \"263e320b-28a5-40e6-b505-6023011c37f4\",\n" +
-                "    \"userSegmentId\": \"fe40924b-ae4a-4296-85c3-eab426f7396a\",\n" +
-                "    \"secondarySubcatIds\": [\"550e8400-ccc1-41d4-a716-446655440028\"]\n" +
-                "  },\n" +
-                "  \"resourceExperiments\": {\n" +
-                "    \"experimentNames\": [\"db9fa811-98bb-4d7d-aaa6-3baedac0765d\", \"73fb1c2a-a26c-4537-b2a0-140bfd01af08\"]\n" +
-                "  },\n" +
-                "   \"resourceDetails\": {\n" +
-                "    \"startTime\": \"2024-11-02T00:00:00Z\",\n" +
-                "      \"bucketType\": \"Promotional\",\n" +
-                "      \"couponCode\": \"C-coupon2\",\n" +
-                "      \"couponName\": \"C coupon2\",\n" +
-                "      \"couponType\": \"Seasonal\",\n" +
-                "    //  \"pvId\":\"Clothing\",\n" +
-                "     \"expiryTime\": \"2024-11-10T23:59:59Z\",\n" +
-                "    //  \"campaignName\":\"Campaign daily\",\n" +
-                "     \"details\": \" Campaign test details\",\n" +
-                "     \"discount\": \"100.00\",\n" +
-                "    //  \"campaignDetails\":\"Campaign detals test fine\",\n" +
-                "     \"quantity\": 10,\n" +
-                "     \"eligibility\":\"seller user\",\n" +
-                "    //  \"maximumQuantity\" : 20,\n" +
-                "    //  \"maximumQuantityPerUser\": 2,\n" +
-                "      \"discountType\": \"AMOUNT\"\n" +
-                "    //  \"discountAmountOff\": 100.00\n" +
-                "   }\n" +
-                "}",requestId_addon,resourcetype,resourceId);
+                "    \"requestId\": \"550e8400-e29b-41d4-a716-446666%s\",\n" +
+                "    \"operationType\": \"CREATE\",\n" +
+                "    \"resourceType\": \"%s\",\n" +
+                "    \"resourceId\": \"Recieve test 2\",\n" +
+                "    \"resourceSegments\": {\n" +
+                "        \"storeSegmentId\": \"263e320b-28a5-40e6-b505-6023011c37f4\",\n" +
+                "        \"userSegmentId\": \"fe40924b-ae4a-4296-85c3-eab426f7396a\",\n" +
+                "        \"secondarySubcatIds\": [\n" +
+                "            \"550e8400-ccc1-41d4-a716-446655440028\"\n" +
+                "        ]\n" +
+                "    },\n" +
+                "    \"resourceExperiments\": {\n" +
+                "        \"experimentNames\": [\n" +
+                "            \"db9fa811-98bb-4d7d-aaa6-3baedac0765d\",\n" +
+                "            \"73fb1c2a-a26c-4537-b2a0-140bfd01af08\"\n" +
+                "        ]\n" +
+                "    },\n" +
+                "    \"resourceDetails\": {\n" +
+                "        \"startTime\": \"2024-03-01T00:00:00Z\",\n" +
+                "        \"bucketType\": \"Promotional\",\n" +
+                "        \"couponCode\": \"C-coupon2\",\n" +
+                "        \"couponName\": \"C coupon2\",\n" +
+                "        \"couponType\": \"Seasonal\",\n" +
+                "        \"expiryTime\": \"2024-03-31T23:59:59Z\",\n" +
+                "        \"discountType\": \"AMOUNT\",\n" +
+                "        \"discountAmountOff\": 100.00\n" +
+                "    }\n" +
+                "}",requestId_addon,resourcetype);
 
-       RequestSpecification requestSpecification =    given().header("X-Client-ID",clientId).body(req_body);
+       RequestSpecification requestSpecification =    given().log().all().header("X-Client-ID","7c1f5df8b07e62deb315f410d8788d56")
+               .header("Content-Type","application/json").body(req_body);
 
        String res = requestSpecification.when().post("api/v1/resource/upsert").then().extract().response().asString();
 
@@ -136,6 +134,7 @@ public class Upsert {
   public static void main(String[] args)
   {
       authorization();
+      createResource();
       listResource();
   }
 
